@@ -1,0 +1,6 @@
+---
+- name: install hugo packages
+  yum: pkg={{ hugo_url }} state=present
+  tags:
+    - hugo
+

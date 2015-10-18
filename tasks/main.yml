@@ -1,0 +1,34 @@
+---
+# tasks file for ansible-hugo
+- set_fact:
+     hugo_arch_extention: "_amd64"
+  when: ansible_architecture == "x86_64"
+  tags:
+    - hugo
+
+- set_fact:
+     hugo_arch_extention: "_i386"
+  when: ansible_architecture == "i386"
+  tags:
+    - hugo
+
+
+- name: Include OS-specific variables.
+  include_vars: "{{ item  }}"
+  with_first_found:
+   - "{{ ansible_distribution }}.yml"
+   - "{{ ansible_os_family }}.yml"
+   - "default.yml"
+  tags:
+    - hugo
+
+
+- include: install-debian.yml
+  when: "ansible_os_family == 'Debian'"
+  tags:
+    - apache
+
+- include: install-centos.yml
+  when: "ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'"
+  tags:
+    - apache

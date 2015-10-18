@@ -1,0 +1,5 @@
+---
+- name: install hugo packages
+  apt: deb={{ hugo_url }} state=present update_cache=yes cache_valid_time=86400
+  tags:
+    - hugo

@@ -1,0 +1,4 @@
+---
+# defaults file for ansible-hugo
+hugo_version: "0.14"
+hugo_arch_extention: ""
