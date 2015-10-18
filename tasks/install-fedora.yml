@@ -1,0 +1,14 @@
+---
+- name: install hugo packages
+  yum: pkg={{ hugo_url }} state=present
+  when: ansible_distribution_major_version|int < 22
+  tags:
+    - hugo
+
+
+- name: install hugo packages
+  shell: dnf install {{ hugo_url }} -y
+  when: ansible_distribution_major_version|int >= 22
+  changed_when: false
+  tags:
+    - hugo
