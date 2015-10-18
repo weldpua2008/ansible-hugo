@@ -1,0 +1,8 @@
+---
+- name: Install package hugo
+  zypper:
+    name={{hugo_url}}
+    state=present
+  changed_when: false
+  tags:
+    - hugo

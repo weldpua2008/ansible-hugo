@@ -1,0 +1,1 @@
+hugo_url: "https://github.com/spf13/hugo/releases/download/v{{hugo_version}}/hugo_{{hugo_version}}_linux{{hugo_arch_extention}}.tar.gz"

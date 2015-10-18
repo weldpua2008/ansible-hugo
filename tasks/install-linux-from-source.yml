@@ -1,0 +1,10 @@
+---
+#- file: path={{ hugo_dest_dir }} state=directory
+#  tags:
+#    - hugo
+
+- name: download hugo
+  unarchive: url={{hugo_url}} dest={{hugo_dest_dir}} mode=0644
+  tags:
+    - hugo
+

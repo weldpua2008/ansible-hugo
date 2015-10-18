@@ -1,13 +1,13 @@
 ---
 # tasks file for ansible-hugo
 - set_fact:
-     hugo_arch_extention: "_amd64"
+     hugo_arch_extention: "amd64"
   when: ansible_architecture == "x86_64"
   tags:
     - hugo
 
 - set_fact:
-     hugo_arch_extention: "_i386"
+     hugo_arch_extention: "i386"
   when: ansible_architecture == "i386"
   tags:
     - hugo
@@ -26,15 +26,26 @@
 - include: install-debian.yml
   when: "ansible_os_family == 'Debian'"
   tags:
-    - apache
+    - hugo
 
-- include: install-centos.yml
-  when: "ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'"
+- include: install-linux-from-source.yml
+  when: "ansible_os_family == 'RedHat'"
   tags:
-    - apache
+    - hugo
 
 
-- include: install-fedora.yml
-  when: "ansible_os_family == 'RedHat' and ansible_distribution == 'Fedora'"
-  tags:
-    - apache
+#- include: install-centos.yml
+#  when: "ansible_os_family == 'RedHat' and ansible_distribution != 'Fedora'"
+#  tags:
+#    - hugo
+#
+#
+#- include: install-fedora.yml
+#  when: "ansible_os_family == 'RedHat' and ansible_distribution == 'Fedora'"
+#  tags:
+#    - hugo
+#
+#- include: install-suse.yml
+#  when: ansible_distribution == 'SLES' or ansible_distribution == 'OES' or ansible_distribution == 'Suse' or ansible_distribution == 'openSUSE'
+#  tags:
+#    - hugo
