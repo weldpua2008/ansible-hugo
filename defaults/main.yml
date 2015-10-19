@@ -1,5 +1,12 @@
 ---
 # defaults file for ansible-hugo
+
 hugo_version: "0.14"
+hugo_os: "linux"
+hugo_extention: "tar.gz"
+
 hugo_arch_extention: ""
-hugo_dest_dir: "/opt/"
+hugo_dest_dir: "/opt/hugo"
+hugo_bin_dir: "/opt/hugo/bin"
+hugo_temp_dir: "/tmp"
+force: False

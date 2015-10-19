@@ -1,1 +1,0 @@
-hugo_url: "https://github.com/spf13/hugo/releases/download/v{{hugo_version}}/hugo_{{hugo_version}}_{{hugo_arch_extention}}.deb"

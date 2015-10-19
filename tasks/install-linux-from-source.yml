@@ -1,10 +1,79 @@
 ---
-#- file: path={{ hugo_dest_dir }} state=directory
-#  tags:
-#    - hugo
-
-- name: download hugo
-  unarchive: url={{hugo_url}} dest={{hugo_dest_dir}} mode=0644
+#################################################
+#   Valeriy Solovyov (weldpua2008@gmail.com)
+#   Licenses: MIT  BSD
+#   19.10.2015
+#################################################
+- file: path={{ item }} state=absent
+  changed_when: false
+  with_items:
+    - "{{ hugo_dest_dir }}"
+    - /usr/local/bin/hugo
   tags:
     - hugo
 
+- file: path={{ item }} state=directory
+  changed_when: false
+  with_items:
+    - "{{ hugo_dest_dir }}"
+    - "{{ hugo_bin_dir }}"
+    - "{{hugo_temp_dir}}"
+  tags:
+    - hugo
+
+
+- set_fact:
+     hugo_dir_name: "hugo_{{hugo_version}}_{{hugo_os}}_{{hugo_arch_extention}}"
+     hugo_file_name: "hugo_{{hugo_version}}_{{hugo_os}}_{{hugo_arch_extention}}.{{hugo_extention}}"
+     hugo_dest_file_path: "{{ hugo_temp_dir }}/hugo{{hugo_version}}_{{hugo_os}}.{{hugo_extention}}"
+  tags:
+    - hugo
+
+- name: download Hugo
+  get_url: url={{hugo_url}} dest={{hugo_dest_file_path}} force=no
+  register: download_result
+  tags:
+    - hugo
+
+
+- name: Extract hugo
+  unarchive: src={{hugo_dest_file_path}} dest={{hugo_dest_dir}} #mode=0644
+  changed_when: false
+#  when: "download_result.changed or force|bool"
+  tags:
+    - hugo
+
+#- debug: msg="{{hugo_dest_dir}}/{{hugo_dir_name}}"
+#- debug: msg="{{item}}"
+#  with_fileglob:
+#    - "{{hugo_dest_dir}}/{{hugo_dir_name}}/hugo*"
+
+#- stat: path="{{item}}"
+#  register: st
+#  with_fileglob:
+#    - "{{hugo_dest_dir}}/{{hugo_dir_name}}/hugo*"
+
+- name: Create a links at bin
+  file: src={{hugo_dest_dir}}/{{hugo_dir_name}}/{{hugo_dir_name}} dest={{hugo_bin_dir}}/hugo state=link
+  changed_when: false
+  tags:
+    - hugo
+#
+- name: Create a links
+  file: src={{hugo_bin_dir}}/hugo dest=/usr/local/bin/hugo state=link
+  changed_when: false
+  tags:
+    - hugo
+
+- name: Test if installed
+  shell: hugo version
+  register: version_output
+  changed_when: false
+  tags:
+    - hugo
+
+- name: Cheking that current version in output
+  fail: msg="{{hugo_version}} wasn't find in {{version_output.stdout}}"
+  when: "hugo_version not in version_output.stdout"
+  tags:
+    - hugo

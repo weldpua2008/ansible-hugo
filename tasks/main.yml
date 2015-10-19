@@ -1,5 +1,10 @@
 ---
 # tasks file for ansible-hugo
+#################################################
+#   Valeriy Solovyov (weldpua2008@gmail.com)
+#   Licenses: MIT  BSD
+#   19.10.2015
+#################################################
 - set_fact:
      hugo_arch_extention: "amd64"
   when: ansible_architecture == "x86_64"
@@ -12,24 +17,26 @@
   tags:
     - hugo
 
-
 - name: Include OS-specific variables.
   include_vars: "{{ item  }}"
   with_first_found:
-   - "{{ ansible_distribution }}.yml"
-   - "{{ ansible_os_family }}.yml"
-   - "default.yml"
+   - "../vars/{{ ansible_distribution }}.yml"
+   - "../vars/{{ ansible_os_family }}.yml"
+   - "../vars/default.yml"
   tags:
     - hugo
 
 
-- include: install-debian.yml
-  when: "ansible_os_family == 'Debian'"
-  tags:
-    - hugo
+
+
+
+#- include: install-debian.yml
+#  when: "ansible_os_family == 'Debian'"
+#  tags:
+#    - hugo
 
 - include: install-linux-from-source.yml
-  when: "ansible_os_family == 'RedHat'"
+  when: "ansible_os_family in ['RedHat', 'Debian', 'Suse', 'Gentoo','Archlinux', 'Mandrake', 'Alpine', 'OtherLinux','OracleLinux']"
   tags:
     - hugo
 
