@@ -1,7 +1,9 @@
+[![Build Status](https://travis-ci.org/weldpua2008/ansible-hugo.svg)](https://travis-ci.org/weldpua2008/ansible-hugo)
 Role Name
 =========
 
-A brief description of the role goes here.
+Ansible role to install HUGO - Fast and Flexible Static Site Generator http://gohugo.io/ 
+![Hugo](https://raw.githubusercontent.com/spf13/hugo/master/docs/static/img/hugo-logo.png)
 
 Requirements
 ------------

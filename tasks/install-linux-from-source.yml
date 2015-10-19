@@ -37,29 +37,19 @@
 
 
 - name: Extract hugo
-  unarchive: src={{hugo_dest_file_path}} dest={{hugo_dest_dir}} #mode=0644
+  unarchive: src={{hugo_dest_file_path}} dest={{hugo_dest_dir}}
   changed_when: false
-#  when: "download_result.changed or force|bool"
   tags:
     - hugo
 
-#- debug: msg="{{hugo_dest_dir}}/{{hugo_dir_name}}"
-#- debug: msg="{{item}}"
-#  with_fileglob:
-#    - "{{hugo_dest_dir}}/{{hugo_dir_name}}/hugo*"
 
-#- stat: path="{{item}}"
-#  register: st
-#  with_fileglob:
-#    - "{{hugo_dest_dir}}/{{hugo_dir_name}}/hugo*"
-
-- name: Create a links at bin
+- name: Create a links at bin folder
   file: src={{hugo_dest_dir}}/{{hugo_dir_name}}/{{hugo_dir_name}} dest={{hugo_bin_dir}}/hugo state=link
   changed_when: false
   tags:
     - hugo
-#
-- name: Create a links
+
+- name: Create a links to /usr/local/bin/hugo
   file: src={{hugo_bin_dir}}/hugo dest=/usr/local/bin/hugo state=link
   changed_when: false
   tags:
