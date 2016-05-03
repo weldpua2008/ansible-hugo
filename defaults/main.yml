@@ -1,7 +1,7 @@
 ---
 # defaults file for ansible-hugo
 
-hugo_version: "0.14"
+hugo_version: "0.15"
 hugo_os: "linux"
 hugo_extention: "tar.gz"
 
